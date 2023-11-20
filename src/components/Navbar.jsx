@@ -34,10 +34,10 @@ export default function NavbarDefault() {
         as="li"
         variant="small"
         color="blue-gray"
-        className="flex items-center gap-x-2 p-1 font-medium hover:border-b hover:border-blue-500"
+        className="flex items-center gap-x-2 p-1 font-medium hover:border-b hover:border-red-500"
       >
-        <a href="#" className="flex items-center">
-          FORMULE 1
+        <a href="/configurateur" className="flex items-center">
+          CONSTRUCTEUR
         </a>
       </Typography>
       <Typography
@@ -54,7 +54,7 @@ export default function NavbarDefault() {
         as="li"
         variant="small"
         color="blue-gray"
-        className="flex items-center gap-x-2 p-1 font-medium hover:border-b hover:border-blue-500"
+        className="flex items-center gap-x-2 p-1 font-medium hover:border-b hover:border-red-500"
       >
         <a href="#" className="flex items-center">
           UNIVERS ALPINE
