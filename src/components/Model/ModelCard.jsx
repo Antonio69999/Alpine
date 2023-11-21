@@ -1,7 +1,19 @@
 // ModelCard.js
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setNextStep, setSelectedCar } from "../../features/modeleSlice";
+import { Link } from "react-router-dom";
 
 const ModelCard = ({ model }) => {
+  const dispatch = useDispatch();
+  const currentStep = useSelector((state) => state.currentStep);
+  const selectedCar = useSelector((state) => state.selectedCar);
+
+  const handleStepClick = () => {
+    dispatch(setSelectedCar(model));
+    dispatch(setNextStep(console.log("clicked")));
+  };
+
   return (
     <div className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
       <img
@@ -29,9 +41,14 @@ const ModelCard = ({ model }) => {
         <p className="row mb-3 font-bold text-black-700 dark:text-gray-400">
           Classe énergitique
         </p>
-        <button class="transition ease-in-out delay-150 bg-black hover:bg-blue-300 duration-200 text-white font-bold py-2 px-4 border border-blue-700 rounded">
-          CONFIGURER
-        </button>
+        <Link to={{ pathname: "/color", state: { selectedCar: model } }}>
+          <button
+            onClick={handleStepClick}
+            className="transition ease-in-out delay-150 bg-black hover:bg-blue-300 duration-200 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+          >
+            CONFIGURER
+          </button>
+        </Link>
       </div>
     </div>
   );

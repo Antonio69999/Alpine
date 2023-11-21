@@ -1,6 +1,6 @@
 import React from "react";
 import Alpine from "../assets/Images/Alpine.png";
-import ModelList from "../components/ModelList";
+import ModelList from "../components/Model/ModelList";
 
 function Configurateur() {
   return (
