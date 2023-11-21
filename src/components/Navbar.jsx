@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
+import Alpine from "../assets/Images/Alpine.png";
+
 
 import {
   Navbar,
@@ -65,6 +67,10 @@ export default function NavbarDefault() {
   );
 
   return (
+    <>
+    <div className="flex justify-center pt-3">
+        <img src={Alpine} alt="Alpine" height="50px" width="200px" />
+      </div>
       <Navbar
         style={{ border: "none" }}
         className="mx-auto max-w-screen-xl px-4 py-2 lg:px-8 lg:py-4"
@@ -135,5 +141,6 @@ export default function NavbarDefault() {
           </div>
         </MobileNav>
       </Navbar>
+      </>
   );
 }

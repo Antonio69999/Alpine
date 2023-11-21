@@ -1,19 +1,17 @@
-// header.js
 import React from "react";
 import Alpine from "../assets/Images/Alpine.png";
-import CarouselWithContent from "./Carousel";
-import NavbarDefault from "./Navbar";
 
-const Header = () => {
+function Configurateur() {
   return (
-    <header>
+    <>
       <div className="flex justify-center pt-3">
         <img src={Alpine} alt="Alpine" height="50px" width="200px" />
       </div>
-      <NavbarDefault />
-      <CarouselWithContent />
-    </header>
+      <div className="flex justify-center pt-3">
+        <h1>CONFIGURATEUR OFFICIEL ALPINE</h1>
+      </div>
+    </>
   );
-};
+}
 
-export default Header;
+export default Configurateur;
