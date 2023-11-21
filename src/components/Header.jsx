@@ -1,9 +1,10 @@
+// header.js
 import React from "react";
 import Alpine from "../assets/Images/Alpine.png";
-import NavbarDefault from "./Navbar";
 import CarouselWithContent from "./Carousel";
+import NavbarDefault from "./Navbar";
 
-const header = () => {
+const Header = () => {
   return (
     <header>
       <div className="flex justify-center pt-3">
@@ -15,4 +16,4 @@ const header = () => {
   );
 };
 
-export default header;
+export default Header;
