@@ -4,29 +4,43 @@ import { useState, useEffect } from "react";
 
 const Color = () => {
   const selectedCar = useSelector((state) => state.cars.selectedCar);
-  const selectedColor = useSelector((state) => state.cars.selectedColor);
+  const colors = useSelector((state) => state.cars.colors);
+  const selectedColorFromRedux = useSelector(
+    (state) => state.cars.selectedColor
+  );
   const dispatch = useDispatch();
 
+  // Initialize local state for selected color and current image index
+  const [selectedColor, setSelectedColorLocal] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   useEffect(() => {
-    console.log("selectedCar:", selectedCar);
-    console.log("selectedColor:", selectedColor);
-  }, [selectedCar, selectedColor]);
+    // Set the default color when the component mounts
+    if (!selectedColorFromRedux && colors && colors.length > 0) {
+      dispatch(setSelectedColor(colors[0])); // Select the first color by default
+    }
+
+    // Update local state when selectedColorFromRedux changes
+    setSelectedColorLocal(selectedColorFromRedux);
+  }, [colors, dispatch, selectedColorFromRedux]);
 
   const handleColorChange = (color) => {
     dispatch(setSelectedColor(color));
-    setCurrentImageIndex(0); // Reset image index when color changes
+    setSelectedColorLocal(color);
+    setCurrentImageIndex(0); // Reset the current image index when the color changes
   };
 
-  const nextImage = () => {
-    setCurrentImageIndex(
-      (prevIndex) => (prevIndex + 1) % selectedColor.images.length
+  const handleNextImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex < Object.values(selectedColor.images).length - 1
+        ? prevIndex + 1
+        : prevIndex
     );
   };
 
-  const prevImage = () => {
+  const handlePrevImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? selectedColor.images.length - 1 : prevIndex - 1
+      prevIndex > 0 ? prevIndex - 1 : prevIndex
     );
   };
 
@@ -44,23 +58,17 @@ const Color = () => {
                 key={index}
                 src={image}
                 alt={`Car View ${index + 1}`}
-                className={`w-full ${
-                  index === currentImageIndex ? "" : "hidden"
-                }`}
+                className={`w-full ${index === currentImageIndex ? "" : "hidden"}`}
               />
             ))}
           </div>
         )}
-      </div>
+      </div> 
 
       {/* Navigation button */}
       <div className="flex justify-center mt-4">
-        <button onClick={prevImage} className="mr-2 px-4 py-2 bg-gray-300">
-          Previous
-        </button>
-        <button onClick={nextImage} className="px-4 py-2 bg-gray-300">
-          Next
-        </button>
+      <button onClick={handleNextImage}>Next</button>
+        <button onClick={handlePrevImage}>Previous</button>
       </div>
 
       <div className="mt-8">
