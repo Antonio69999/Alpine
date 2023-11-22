@@ -19,6 +19,29 @@ const initialState = {
       img: legende,
       energetique: D,
       id: 1,
+      colorOptions: [
+        {
+          name: "Peinture opaque Blanc Glacier",
+          img: pureblanchefront,
+          price: "0",
+          default: true,
+          id: 1,
+        },
+        {
+          name: "Teinte spéciale Bleu Alpine",
+          img: purebleufront,
+          price: "1800",
+          default: false,
+          id: 2,
+        },
+        {
+          name: "Teinte métallisée Noir Profond",
+          img: purenoirfront,
+          price: "840",
+          default: false,
+          id: 3,
+        },
+      ],
     },
 
     {
@@ -28,31 +51,35 @@ const initialState = {
       img: pure,
       energetique: D,
       id: 2,
-    },
-  ],
-  colors: [
-    {
-      name: "Peinture opaque Blanc Glacier",
-      img: blanc,
-      price: "0",
-      id: 1,
-    },
-    {
-      name: "Teinte spéciale Bleu Alpine",
-      img: bleu,
-      price: "1800",
-      id: 2,
-    },
-    {
-      name: "Teinte métallisée Noir Profond",
-      img: noir,
-      price: "840",
-      id: 3,
+      colorOptions: [
+        {
+          name: "Peinture opaque Blanc Glacier",
+          img: legendeblanchefront,
+          price: "0",
+          default: true,
+          id: 4,
+        },
+        {
+          name: "Teinte spéciale Bleu Alpine",
+          img: legendebbleufront,
+          price: "1800",
+          default: false,
+          id: 5,
+        },
+        {
+          name: "Teinte métallisée Noir Profond",
+          img: legendebnoirfront,
+          price: "840",
+          default: false,
+          id: 6,
+        },
+      ],
     },
   ],
 
   currentStep: 0,
   selectedCar: null,
+  selectedColor: null,
 };
 
 export const modelSlice = createSlice({
@@ -68,9 +95,13 @@ export const modelSlice = createSlice({
     setSelectedCar: (state, action) => {
       state.selectedCar = action.payload;
     },
+    setSelectedColor: (state, action) => {
+      state.selectedColor = action.payload;
+    },
   },
 });
 
-export const { setNextStep, setSelectedCar } = modelSlice.actions;
+export const { setNextStep, setSelectedCar, setSelectedColor } =
+  modelSlice.actions;
 
 export default modelSlice.reducer;
