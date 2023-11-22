@@ -152,18 +152,12 @@ export const modelSlice = createSlice({
     },
     setSelectedCar: (state, action) => {
       state.selectedCar = action.payload;
-      state.selectedColor = null; // Reset selected color when changing the car
+      state.selectedColor = action.payload.colorOptions.find(
+        (colorOption) => colorOption.default
+      );
     },
     setSelectedColor: (state, action) => {
-      const selectedModel = state.models.find(
-        (model) => model.id === state.selectedCar.id
-      );
-
-      state.selectedColor = selectedModel
-        ? selectedModel.colorOptions.find(
-            (colorOption) => colorOption.id === action.payload.id
-          )
-        : null;
+      state.selectedColor = action.payload;
     },
   },
 });
