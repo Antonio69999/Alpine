@@ -1,54 +1,41 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSelectedColor, setSelectedCar } from "../../features/modeleSlice";
 
 const Color = () => {
-  const colors = useSelector((state) => state.cars.colors);
+  const colors = useSelector((state) => state.cars.models);
   const selectedColorFromRedux = useSelector(
     (state) => state.cars.selectedColor
   );
   const selectedCarFromRedux = useSelector((state) => state.cars.selectedCar);
   const dispatch = useDispatch();
 
-  // Initialize local state for selected color and current image index
-  const [selectedColor, setSelectedColorLocal] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    // Set the default color and car when the component mounts
     if (!selectedColorFromRedux && colors && colors.length > 0) {
-      const defaultCar = colors[0]; // Assuming the first car in the array is the default
-      dispatch(setSelectedCar(defaultCar));
-      dispatch(setSelectedColor(defaultCar.colorOptions.find((option) => option.default)));
-    }
-  
-    // Update local state when selectedColorFromRedux changes
-    setSelectedColorLocal(selectedColorFromRedux);
-  
-    // Select the default car if not selected
-    if (!selectedCarFromRedux && colors && colors.length > 0) {
       const defaultCar = colors[0];
       dispatch(setSelectedCar(defaultCar));
-      dispatch(setSelectedColor(defaultCar.colorOptions.find((option) => option.default)));
+      dispatch(
+        setSelectedColor(
+          defaultCar.colorOptions.find((option) => option.default)
+        )
+      );
     }
-  }, [colors, dispatch, selectedColorFromRedux, selectedCarFromRedux]);
-  
-  
+  }, [colors, dispatch, selectedColorFromRedux]);
+
   const handleColorChange = (color) => {
     dispatch(setSelectedColor(color));
-    setSelectedColorLocal(color);
-    setCurrentImageIndex(0); // Reset the current image index when the color changes
-  
-    // Update selected car when color changes
+    setCurrentImageIndex(0);
+
     if (!selectedCarFromRedux) {
-      dispatch(setSelectedCar(color || colors[0])); // Select the default car
-      setSelectedCarLocal(color || colors[0]);
+      dispatch(setSelectedCar(color || colors[0]));
     }
   };
 
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex < Object.values(selectedColor.images).length - 1
+      prevIndex < Object.values(selectedColorFromRedux?.images || {}).length - 1
         ? prevIndex + 1
         : prevIndex
     );
@@ -67,54 +54,87 @@ const Color = () => {
       </div>
 
       <div className="container flex justify-center items-center mt-8">
-        {selectedCarFromRedux && selectedColor && (
+        {selectedCarFromRedux && selectedColorFromRedux && (
           <div className="max-w-full overflow-hidden">
-            {Object.values(selectedColor.images).map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Car View ${index + 1}`}
-                className={`w-full ${
-                  index === currentImageIndex ? "" : "hidden"
-                }`}
-              />
-            ))}
+            {Object.values(selectedColorFromRedux.images).map(
+              (image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`Car View ${index + 1}`}
+                  className={`w-full mx-auto ${
+                    index === currentImageIndex ? "" : "hidden"
+                  }`}
+                  style={{ maxHeight: "400px" }} // Adjust the max height as needed
+                />
+              )
+            )}
           </div>
         )}
       </div>
 
-      {/* Navigation button */}
       <div className="flex justify-center mt-4">
-        <button onClick={handlePrevImage} disabled={!selectedColor}>
+        <button onClick={handlePrevImage} disabled={!selectedColorFromRedux}>
           Previous
         </button>
-        <button onClick={handleNextImage} disabled={!selectedColor}>
+        <button onClick={handleNextImage} disabled={!selectedColorFromRedux}>
           Next
         </button>
       </div>
 
       <div className="mt-8">
-        <h2 className="text-xl mb-2">Available Colors:</h2>
-        {selectedCarFromRedux.colorOptions.map((color) => (
-          <div key={color.id} className="mb-4">
-            <p className="text-lg">{color.name}</p>
-            <button
-              onClick={() => handleColorChange(color)}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
-            >
-              Select Color
-            </button>
-          </div>
-        ))}
-      </div>
+        <div className="flex justify-center space-x-4 bg-black p-4">
+          {selectedCarFromRedux &&
+            selectedCarFromRedux.colorOptions.map((color) => {
+              console.log("Color Object:", color);
 
-      <div className="mt-8">
-        <h2 className="text-xl mb-2">Selected Color:</h2>
-        {selectedColor && (
-          <div>
-            <p className="text-lg">{selectedColor.name}</p>
-          </div>
-        )}
+              const imagePath = color.blanc || color.bleu || color.noir;
+              console.log("Image Path:", imagePath);
+
+              // Check if imagePath is defined
+              if (imagePath) {
+                // Dynamically import the image
+                const imagePromise = import(imagePath);
+
+                // Use a state variable to track when the image is loaded
+                const [loadedImage, setLoadedImage] = useState(null);
+
+                // Load the image when the promise is resolved
+                useEffect(() => {
+                  imagePromise
+                    .then((module) => {
+                      setLoadedImage(module.default);
+                    })
+                    .catch((error) => {
+                      console.error("Error loading image:", error);
+                    });
+                }, [imagePromise]);
+
+                // Render the image as a clickable button when loadedImage is set
+                return (
+                  <div key={color.id} className="text-center">
+                    {loadedImage && (
+                      <button
+                        onClick={() => handleColorChange(color)}
+                        className="focus:outline-none"
+                      >
+                        <img
+                          src={loadedImage}
+                          alt={color.name}
+                          className="w-32 h-24 object-cover mx-auto mb-2"
+                        />
+                      </button>
+                    )}
+                    <p className="text-lg text-white">{color.name}</p>
+                    <p className="text-sm text-gray-300">
+                      Price: ${color.price}
+                    </p>
+                  </div>
+                );
+              }
+              return null; // Added to handle the case when imagePath is not defined
+            })}
+        </div>
       </div>
     </>
   );

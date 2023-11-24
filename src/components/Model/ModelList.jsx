@@ -15,7 +15,7 @@ const ModelList = () => {
     <div className="d-flex justify-content-center align-items-center">
       {displayModels()}
     </div>
-  );
+  ); 
 };
 
 export default ModelList;

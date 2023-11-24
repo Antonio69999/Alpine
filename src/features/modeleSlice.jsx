@@ -5,6 +5,11 @@ import legende from "../assets/Images/configurateur/modele/selection/legende.png
 import pure from "../assets/Images/configurateur/modele/selection/pure.png";
 import D from "../assets/Images/logoD.png";
 
+//COULEURS
+import bleu from "../assets/Images/configurateur/couleurs/selection/bleu.jpg";
+import blanc from "../assets/Images/configurateur/couleurs/selection/blanc.jpg";
+import noir from "../assets/Images/configurateur/couleurs/selection/noir.jpg";
+
 //IMAGES PURE
 import pureblanchefront from "../assets/Images/configurateur/modele/pure/modele_pure-couleur_blanche-jante_standard-1.jpg";
 import pureblancheback from "../assets/Images/configurateur/modele/pure/modele_pure-couleur_blanche-jante_standard-2.jpg";
@@ -37,7 +42,6 @@ import legendebnoireright from "../assets/Images/configurateur/modele/legende/mo
 import legendebnoireleft from "../assets/Images/configurateur/modele/legende/modele_legende-couleur_noir-jante_legende-3.jpg";
 import legendebnoirefront from "../assets/Images/configurateur/modele/legende/modele_legende-couleur_noir-jante_legende-4.jpg";
 
-
 const initialState = {
   models: [
     {
@@ -50,6 +54,7 @@ const initialState = {
       colorOptions: [
         {
           name: "Peinture opaque Blanc Glacier",
+          blanc: blanc,
           images: {
             front: pureblanchefront,
             back: pureblancheback,
@@ -62,6 +67,7 @@ const initialState = {
         },
         {
           name: "Teinte spéciale Bleu Alpine",
+          bleu: bleu,
           images: {
             front: purebleufront,
             back: purebleuback,
@@ -74,6 +80,7 @@ const initialState = {
         },
         {
           name: "Teinte métallisée Noir Profond",
+          noir: noir,
           images: {
             front: purenoirfront,
             back: purenoirback,
@@ -97,6 +104,7 @@ const initialState = {
       colorOptions: [
         {
           name: "Peinture opaque Blanc Glacier",
+          blanc: blanc,
           images: {
             front: legendeblanchefront,
             back: legendeblancheback,
@@ -109,6 +117,7 @@ const initialState = {
         },
         {
           name: "Teinte spéciale Bleu Alpine",
+          bleu: bleu,
           images: {
             front: legendebleufront,
             back: legendebleuback,
@@ -121,6 +130,7 @@ const initialState = {
         },
         {
           name: "Teinte métallisée Noir Profond",
+          noir: noir,
           images: {
             front: legendebnoirefront,
             back: legendebnoireback,
